@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/app/about/page.tsx"],"sourcesContent":["import { redirect } from \"next/navigation\";\n\nexport default function AboutPage() {\n  redirect(\"/#about\");\n}\n"],"names":[],"mappings":"+VAAA,EAAA,CAAA,CAAA,OAAA,IAAA,EAAA,EAAA,CAAA,CAAA,OAEe,SAAS,IACtB,CAAA,EAAA,EAAA,QAAA,AAAQ,EAAC,UACX"}

@@ -1,0 +1,17 @@
+{
+  "name": "RAVOXLABS",
+  "short_name": "RAVOXLABS",
+  "description": "Soluções digitais rápidas, modernas e acessíveis para pequenos negócios",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080A0C",
+  "theme_color": "#6467F2",
+  "icons": [
+    {
+      "src": "/assets/img/MiniLogo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

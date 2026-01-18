@@ -1,0 +1,18 @@
+{
+  "status": 307,
+  "headers": {
+    "location": "/#services",
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/services/layout,_N_T_/services/design-ui-ux/layout,_N_T_/services/design-ui-ux/page,_N_T_/services/design-ui-ux"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/services/design-ui-ux/__PAGE__",
+    "/services/design-ui-ux",
+    "/services",
+    "/_index",
+    "/_head"
+  ]
+}

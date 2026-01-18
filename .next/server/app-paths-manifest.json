@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/opengraph-image/route": "app/opengraph-image/route.js",
+  "/page": "app/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/services/design-ui-ux/page": "app/services/design-ui-ux/page.js",
+  "/services/page": "app/services/page.js",
+  "/services/sites-professional/page": "app/services/sites-professional/page.js",
+  "/services/system-and-dashboard/page": "app/services/system-and-dashboard/page.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js"
+}

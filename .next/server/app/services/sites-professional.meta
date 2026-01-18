@@ -1,0 +1,18 @@
+{
+  "status": 307,
+  "headers": {
+    "location": "/#services",
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/services/layout,_N_T_/services/sites-professional/layout,_N_T_/services/sites-professional/page,_N_T_/services/sites-professional"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/services/sites-professional/__PAGE__",
+    "/services/sites-professional",
+    "/services",
+    "/_index",
+    "/_head"
+  ]
+}

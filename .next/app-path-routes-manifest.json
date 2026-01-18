@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/contact/page": "/contact",
+  "/opengraph-image/route": "/opengraph-image",
+  "/page": "/",
+  "/robots.txt/route": "/robots.txt",
+  "/services/design-ui-ux/page": "/services/design-ui-ux",
+  "/services/page": "/services",
+  "/services/sites-professional/page": "/services/sites-professional",
+  "/services/system-and-dashboard/page": "/services/system-and-dashboard",
+  "/sitemap.xml/route": "/sitemap.xml"
+}
