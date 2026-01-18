@@ -1,4 +1,4 @@
-# 🚀 Ravox Labs
+# [Ravox Labs](public/assets/img/MiniLogo.png) Ravox Labs
 
 <div align="center">
 
