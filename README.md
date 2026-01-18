@@ -1,4 +1,4 @@
-![Ravox Labs](public/assets/img/MiniLogo.png) # Ravox Labs
+# Ravox Labs
 
 <div align="center">
 
