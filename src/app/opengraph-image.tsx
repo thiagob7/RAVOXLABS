@@ -38,8 +38,8 @@ export default async function Image() {
         <img
           src={logoUrl}
           alt="Ravox Labs Logo"
-          width="200"
-          height="200"
+          width="250"
+          height="50"
           style={{
             marginBottom: "20px",
           }}

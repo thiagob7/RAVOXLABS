@@ -10,7 +10,7 @@ export const Budget = () => {
       id="get-started"
       className="relative bg-budget bg-no-repeat bg-cover bg-center py-[120px]"
     >
-      <div className="flex flex-col items-center justify-center container mx-auto max-[1150px]:px-4 max-w-content">
+      <div className="flex flex-col items-center justify-center mx-auto max-[1359px]:px-4 max-w-content">
         <span className="text-4xl font-bold text-white text-center mb-6">
           Pronto para transformar seu negócio?
         </span>

@@ -47,7 +47,7 @@ const benefits = [
 export const Benefits = () => {
   return (
     <section id="benefits" className="relative bg-gray-550 py-[120px]">
-      <div className="flex flex-col items-start justify-center container mx-auto max-[1150px]:px-4 max-w-content">
+      <div className="flex flex-col items-start justify-center container mx-auto max-[1359px]:px-4 max-w-content">
         <span className="text-sm font-medium text-blue-500 uppercase tracking-wider mb-4">
           POR QUE NOS ESCOLHER
         </span>

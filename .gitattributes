@@ -1,0 +1,14 @@
+# Force GitHub Linguist to recognize TypeScript files
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Exclude generated files from language statistics
+next-env.d.ts linguist-generated=true
+
+# Exclude node_modules
+node_modules/** linguist-vendored=true
+
+# Exclude build outputs
+.next/** linguist-generated=true
+dist/** linguist-generated=true
+build/** linguist-generated=true

@@ -12,7 +12,7 @@ export function Header() {
 
   return (
     <header className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-md border-b border-gray-600 z-50">
-      <nav className="max-w-content mx-auto max-[1150px]:px-4">
+      <nav className="max-w-content mx-auto max-[1359px]:px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Logo />

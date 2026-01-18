@@ -10,7 +10,7 @@ export const Banner = () => {
       id="/"
       className="relative min-h-screen bg-banner bg-left bg-no-repeat bg-cover flex items-center justify-center bg-gray-900 overflow-hidden pt-16"
     >
-      <div className="flex flex-col relative z-10 mx-auto text-center max-[1150px]:px-4 max-w-content">
+      <div className="flex flex-col relative z-10 mx-auto text-center max-[1359px]:px-4 max-w-content">
         <div className="inline-flex items-center mx-auto gap-2 px-4 py-2 rounded-full bg-gray-650 backdrop-blur-sm border border-gray-600">
           <div className="w-2 h-2 rounded-full bg-blue-500" />
           <span className="text-white text-sm font-medium">

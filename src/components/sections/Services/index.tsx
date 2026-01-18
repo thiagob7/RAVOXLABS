@@ -28,7 +28,7 @@ const services = [
 export const Services = () => {
   return (
     <section id="services" className="relative bg-gray-650 py-[120px]">
-      <div className="flex flex-col items-center justify-center max-w-content mx-auto max-[1150px]:px-4">
+      <div className="flex flex-col items-center justify-center max-w-content mx-auto max-[1359px]:px-4">
         <h2 className="text-4xl font-bold text-white text-center">
           Nossos serviços
         </h2>

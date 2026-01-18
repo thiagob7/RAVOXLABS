@@ -5,7 +5,7 @@ import { StatCard } from "./components/StatCard";
 export const About = () => {
   return (
     <section id="about" className="relative bg-gray-900 py-[120px]">
-      <div className="flex flex-col items-center justify-center max-w-content mx-auto max-[1150px]:px-4">
+      <div className="flex flex-col items-center justify-center max-w-content mx-auto max-[1359px]:px-4">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8">
           Quem somos
         </h2>

@@ -36,7 +36,7 @@ const contactData = {
 export const Contact = () => {
   return (
     <section id="contact" className="relative bg-gray-900 py-[120px]">
-      <div className="container mx-auto max-[1150px]:px-4 max-w-content">
+      <div className="container mx-auto max-[1359px]:px-4 max-w-content">
         <div className="flex flex-col items-center text-center">
           <span className="text-sm font-medium text-blue-500 uppercase tracking-wider">
             {contactData.eyebrow}

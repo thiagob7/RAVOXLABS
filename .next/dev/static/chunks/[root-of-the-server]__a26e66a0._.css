@@ -1431,8 +1431,8 @@
     opacity: .5;
   }
 
-  @media not (min-width: 1150px) {
-    .max-\[1150px\]\:px-4 {
+  @media not (min-width: 1359px) {
+    .max-\[1359px\]\:px-4 {
       padding-inline: calc(var(--spacing) * 4);
     }
   }
@@ -1536,7 +1536,7 @@
 :root {
   --background: #fff;
   --foreground: #171717;
-  --bg-banner: url("/assets/img/banner.png");
+  --bg-banner: url("/assets/img/bg-banner.png");
   --bg-budget: url("/assets/img/budget.png");
 }
 

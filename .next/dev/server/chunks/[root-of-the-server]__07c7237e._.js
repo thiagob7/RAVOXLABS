@@ -48,7 +48,7 @@ __turbopack_context__.s([
     "default",
     ()=>robots
 ]);
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ravoxlabs.com";
+const siteUrl = ("TURBOPACK compile-time value", "http://localhost:3000") || "https://ravoxlabs.com";
 function robots() {
     return {
         rules: [
