@@ -1,14 +1,14 @@
+import { env } from "~/@core/infra/constants/env";
 import { MetadataRoute } from "next";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ravoxlabs.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: siteUrl,
+      url: env.BASE_URL,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1,
+      images: [`${env.BASE_URL}/assets/img/Logo.png`],
     },
   ];
 }

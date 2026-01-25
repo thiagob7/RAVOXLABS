@@ -1,7 +1,7 @@
-[00:00:01.919] Server  LOG     ✓ Ready in 1362ms
-[00:00:02.864] Server  WARN    Image with src "/assets/img/Logo.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+[00:00:01.416] Server  LOG     ✓ Ready in 1181ms
+[00:00:04.503] Server  WARN    Image with src "/assets/img/Logo.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
 Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
-[00:00:03.615] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:03.745] Browser WARN    Image with src "/assets/img/Logo.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+[00:00:05.005] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.188] Browser WARN    Image with src "/assets/img/Logo.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
 Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
-[00:00:03.890] Browser WARN    Image with src "/assets/img/Logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:05.189] Browser WARN    Image with src "/assets/img/Logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.

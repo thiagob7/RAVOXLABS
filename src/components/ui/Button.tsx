@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           "bg-blue-500 text-white hover:bg-blue-500/80 focus:ring-blue-500",
         outline:
-          "border border-white text-white hover:border-blue-500 hover:bg-white hover:text-gray-900 focus:ring-blue-500",
+          "border border-white text-white hover:bg-white hover:text-gray-900 focus:ring-blue-500",
         ghost: "text-blue-500 hover:bg-blue-500/10 focus:ring-blue-500",
         white: "bg-gray-100 text-gray-900 hover:bg-white/80 focus:ring-white",
       },

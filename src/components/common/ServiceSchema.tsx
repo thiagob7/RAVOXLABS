@@ -1,4 +1,4 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ravoxlabs.com";
+import { env } from "~/@core/infra/constants/env";
 
 interface ServiceSchemaProps {
   name: string;
@@ -21,7 +21,7 @@ export function ServiceSchema({
     provider: {
       "@type": "Organization",
       name: provider,
-      url: siteUrl,
+      url: env.BASE_URL,
     },
     areaServed: {
       "@type": "Country",

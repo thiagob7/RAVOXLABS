@@ -1,3 +1,4 @@
+import { env } from "~/@core/infra/constants/env";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -5,6 +6,7 @@ import "@/styles/globals.css";
 import { Footer } from "@/components/common/Footer";
 import { Header } from "@/components/common/Header";
 import { StructuredData } from "@/components/common/StructuredData";
+import { LoadingProvider } from "@/components/providers/LoadingProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,10 +15,8 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ravoxlabs.com";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(env.BASE_URL),
   title: {
     default: "RAVOXLABS | Sites e Sistemas para Pequenos Negócios",
     template: "%s | RAVOXLABS",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: siteUrl,
+    url: env.BASE_URL,
     siteName: "RAVOXLABS",
     title: "RAVOXLABS | Sites e Sistemas para Pequenos Negócios",
     description:
@@ -102,13 +102,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
-      <body
-        className={`${inter.variable} ${inter.variable} ${inter.variable} antialiased`}
-      >
-        <StructuredData />
-        <Header />
-        {children}
-        <Footer />
+      <body className={`${inter.variable} antialiased`}>
+        <LoadingProvider>
+          <StructuredData />
+          <Header />
+          {children}
+          <Footer />
+        </LoadingProvider>
       </body>
     </html>
   );

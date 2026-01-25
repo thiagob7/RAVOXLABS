@@ -1,6 +1,5 @@
+import { env } from "~/@core/infra/constants/env";
 import { MetadataRoute } from "next";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ravoxlabs.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -11,6 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/admin/"],
       },
     ],
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${env.BASE_URL}/sitemap.xml`,
+    host: env.BASE_URL,
   };
 }

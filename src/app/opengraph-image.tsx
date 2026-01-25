@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+import { env } from "~/@core/infra/constants/env";
+
 export const alt = "Ravox Labs - Soluções Digitais para Pequenos Negócios";
 export const size = {
   width: 1200,
@@ -9,8 +11,7 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const logoUrl = `${siteUrl}/assets/img/Logo.png`;
+  const logoUrl = `${env.BASE_URL}/assets/img/Logo.png`;
 
   return new ImageResponse(
     <div

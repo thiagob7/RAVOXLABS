@@ -1,12 +1,12 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ravoxlabs.com";
+import { env } from "~/@core/infra/constants/env";
 
 export function StructuredData() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Ravox Labs",
-    url: siteUrl,
-    logo: `${siteUrl}/assets/img/Logo.png`,
+    url: env.BASE_URL,
+    logo: `${env.BASE_URL}/assets/img/Logo.png`,
     description:
       "Ravox Labs desenvolve soluções digitais rápidas, modernas e acessíveis para pequenos negócios.",
     contactPoint: {
@@ -17,21 +17,23 @@ export function StructuredData() {
       areaServed: "BR",
       availableLanguage: ["Portuguese"],
     },
-    sameAs: [],
+    sameAs: [
+      "https://www.instagram.com/ravoxlabs/",
+    ],
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Ravox Labs",
-    url: siteUrl,
+    url: env.BASE_URL,
     description:
       "Soluções digitais para pequenos negócios. Sites profissionais, sistemas personalizados e design UI/UX.",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+        urlTemplate: `${env.BASE_URL}/search?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },

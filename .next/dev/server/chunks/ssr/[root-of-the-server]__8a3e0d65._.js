@@ -239,6 +239,7 @@ __turbopack_context__.s([
     ()=>metadata
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js [app-rsc] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f40$core$2f$infra$2f$constants$2f$env$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/@core/infra/constants/env.ts [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$sections$2f$About$2f$index$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/sections/About/index.tsx [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$sections$2f$Banner$2f$index$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/sections/Banner/index.tsx [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$sections$2f$Benefits$2f$index$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/sections/Benefits/index.tsx [app-rsc] (ecmascript)");
@@ -252,7 +253,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$section
 ;
 ;
 ;
-const siteUrl = ("TURBOPACK compile-time value", "http://localhost:3000") || "https://ravoxlabs.com";
+;
 const metadata = {
     // title não definido - usa o default do layout: "RAVOXLABS | Sites e Sistemas para Pequenos Negócios"
     description: "Transforme seu negócio com soluções digitais profissionais e acessíveis. Sites responsivos, sistemas personalizados e design UI/UX que geram resultados para pequenos negócios e autônomos.",
@@ -262,7 +263,7 @@ const metadata = {
     openGraph: {
         title: "RAVOXLABS | Sites e Sistemas para Pequenos Negócios",
         description: "Transforme seu negócio com soluções digitais profissionais e acessíveis.",
-        url: siteUrl
+        url: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f40$core$2f$infra$2f$constants$2f$env$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["env"].BASE_URL
     }
 };
 function Home() {
