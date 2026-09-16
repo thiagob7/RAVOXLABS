@@ -2,7 +2,7 @@
 
 import { useState, FormEvent, useRef, useEffect } from "react";
 import { FiSend, FiCheck } from "react-icons/fi";
-import { animated, useSpring, useTrail } from "react-spring";
+import { animated, useSpring } from "react-spring";
 import gsap from "gsap";
 
 import { InputField } from "@/components/common/InputField";

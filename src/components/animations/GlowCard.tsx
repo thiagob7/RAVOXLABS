@@ -29,7 +29,7 @@ export function GlowCard({
     transform: hovered ? "scale(1.02) translateY(-5px)" : "scale(1) translateY(0px)",
     boxShadow: hovered
       ? `0 20px 40px ${glowColor}, 0 0 60px ${glowColor.replace("0.4", "0.2")}`
-      : "0 0 0px rgba(100, 103, 242, 0)",
+      : "0 0px 0px rgba(100, 103, 242, 0), 0 0 0px rgba(100, 103, 242, 0)",
     config: { tension: 300, friction: 20 },
   });
 

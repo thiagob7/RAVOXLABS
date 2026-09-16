@@ -1,9 +1,12 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { FiGlobe, FiGrid, FiLayers } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import { AirplayIcon } from "@/components/ui/airplay";
+import { LayoutGridIcon } from "@/components/ui/layout-grid";
+import { PaletteIcon } from "@/components/ui/palette";
 
 import { ServiceCard } from "./components/ServiceCard";
 
@@ -13,20 +16,23 @@ if (typeof window !== "undefined") {
 
 const services = [
   {
-    icon: <FiGlobe className="w-12 h-12" />,
+    icon: AirplayIcon,
     title: "Sites profissionais",
+    href: "/services/sites-professional",
     description:
       "Sites rápidos, responsivos e modernos criados para fortalecer sua presença digital.",
   },
   {
-    icon: <FiGrid className="w-12 h-12" />,
+    icon: LayoutGridIcon,
     title: "Sistemas e dashboards",
+    href: "/services/system-and-dashboard",
     description:
       "Desenvolvimento de sistemas personalizados para automação de processos e gestão.",
   },
   {
-    icon: <FiLayers className="w-12 h-12" />,
+    icon: PaletteIcon,
     title: "Design UI/UX",
+    href: "/services/design-ui-ux",
     description:
       "Interfaces modernas, intuitivas e centradas na experiência do usuário.",
   },
@@ -114,6 +120,7 @@ export const Services = () => {
               icon={service.icon}
               title={service.title}
               description={service.description}
+              href={service.href}
               index={index}
             />
           ))}

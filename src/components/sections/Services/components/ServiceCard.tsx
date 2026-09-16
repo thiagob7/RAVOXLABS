@@ -1,77 +1,88 @@
 "use client";
 
-import { ReactNode, useState, useRef } from "react";
+import Link from "next/link";
+import {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useRef,
+  useState,
+} from "react";
+import { FiArrowRight } from "react-icons/fi";
 import { animated, useSpring } from "react-spring";
-import gsap from "gsap";
 
-interface ServiceCardProps {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  index?: number;
+export interface AnimatedIconHandle {
+  startAnimation: () => void;
+  stopAnimation: () => void;
 }
 
-export const ServiceCard = ({ icon, title, description, index = 0 }: ServiceCardProps) => {
+export type AnimatedIcon = ForwardRefExoticComponent<
+  { size?: number; className?: string } & RefAttributes<AnimatedIconHandle>
+>;
+
+interface ServiceCardProps {
+  icon: AnimatedIcon;
+  title: string;
+  description: string;
+  href: string;
+  index: number;
+}
+
+const AnimatedLink = animated(Link);
+
+export const ServiceCard = ({
+  icon: Icon,
+  title,
+  description,
+  href,
+  index,
+}: ServiceCardProps) => {
   const [hovered, setHovered] = useState(false);
-  const iconRef = useRef<HTMLDivElement>(null);
-
-  const cardSpring = useSpring({
-    transform: hovered
-      ? "scale(1.03) translateY(-10px)"
-      : "scale(1) translateY(0px)",
-    boxShadow: hovered
-      ? "0 25px 50px rgba(100, 103, 242, 0.2), 0 0 80px rgba(100, 103, 242, 0.1)"
-      : "0 0 0 rgba(100, 103, 242, 0)",
-    config: { tension: 300, friction: 20 },
-  });
-
-  const iconSpring = useSpring({
-    transform: hovered ? "scale(1.15) rotate(5deg)" : "scale(1) rotate(0deg)",
-    config: { tension: 400, friction: 15 },
-  });
+  const iconRef = useRef<AnimatedIconHandle>(null);
 
   const handleMouseEnter = () => {
     setHovered(true);
-    if (iconRef.current) {
-      gsap.to(iconRef.current, {
-        boxShadow: "0 0 30px rgba(100, 103, 242, 0.5)",
-        duration: 0.3,
-      });
-    }
+    iconRef.current?.startAnimation();
   };
 
   const handleMouseLeave = () => {
     setHovered(false);
-    if (iconRef.current) {
-      gsap.to(iconRef.current, {
-        boxShadow: "0 0 0px rgba(100, 103, 242, 0)",
-        duration: 0.3,
-      });
-    }
+    iconRef.current?.stopAnimation();
   };
 
+  const cardSpring = useSpring({
+    transform: hovered ? "translateY(-4px)" : "translateY(0px)",
+    config: { tension: 280, friction: 26 },
+  });
+
   return (
-    <animated.div
+    <AnimatedLink
+      href={href}
       style={cardSpring}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="flex flex-col items-center text-center p-8 rounded-2xl bg-gray-850 border border-gray-600 hover:border-[#6467F2]/70 transition-colors duration-300 cursor-pointer will-change-transform"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-gray-850 p-7 transition-colors duration-300 will-change-transform hover:border-white/[0.12]"
     >
-      <animated.div
-        ref={iconRef}
-        style={iconSpring}
-        className="text-blue-500 bg-blue-500/10 p-4 rounded-2xl w-16 h-16 flex items-center justify-center transition-colors duration-300"
-      >
-        {icon}
-      </animated.div>
-      <h3 className="text-xl font-semibold text-gray-100 mt-6">{title}</h3>
-      <span className="text-gray-400 leading-relaxed mt-3">{description}</span>
+      {/* Top edge highlight */}
+      <span className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      {/* Decorative line */}
-      <div
-        className="w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 mt-6 transition-all duration-500"
-        style={{ width: hovered ? "60%" : "0%" }}
-      />
-    </animated.div>
+      <div className="flex items-start justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] text-gray-400 transition-colors duration-300 group-hover:text-blue-500">
+          <Icon ref={iconRef} size={22} />
+        </div>
+        <span className="font-mono text-xs tracking-wider text-gray-400/50">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      <h3 className="mt-8 text-lg font-semibold text-gray-100">{title}</h3>
+      <p className="mt-2 text-[15px] leading-relaxed text-gray-400">
+        {description}
+      </p>
+
+      <span className="mt-auto flex items-center gap-1.5 pt-8 text-sm font-medium text-gray-400 transition-colors duration-300 group-hover:text-gray-100">
+        Saiba mais
+        <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      </span>
+    </AnimatedLink>
   );
 };

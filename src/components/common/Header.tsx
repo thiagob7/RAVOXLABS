@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { animated, useSpring, useTrail } from "react-spring";
+import { animated, useSpring, useSprings } from "react-spring";
 import { gsap } from "@/lib/gsap";
 
 import { Button } from "../ui/Button";
@@ -67,21 +67,28 @@ export function Header() {
     { href: "#contact", label: "Contato" },
   ];
 
-  // Trail animation for nav links
-  const trail = useTrail(navLinks.length, {
-    opacity: 1,
-    transform: "translateY(0px)",
-    from: { opacity: 0, transform: "translateY(-10px)" },
-    delay: 500,
-    config: { tension: 300, friction: 20 },
-  });
+  // Staggered entrance for nav links (useSprings + delay avoids useTrail's
+  // spring chaining, which can overflow the call stack in react-spring 10)
+  const trail = useSprings(
+    navLinks.length,
+    navLinks.map((_, index) => ({
+      from: { opacity: 0, transform: "translateY(-10px)" },
+      to: { opacity: 1, transform: "translateY(0px)" },
+      delay: 500 + index * 50,
+      config: { tension: 300, friction: 20 },
+    }))
+  );
 
-  // Mobile menu trail
-  const mobileTrail = useTrail(navLinks.length + 1, {
-    opacity: mobileMenuOpen ? 1 : 0,
-    transform: mobileMenuOpen ? "translateX(0px)" : "translateX(-20px)",
-    config: { tension: 300, friction: 25 },
-  });
+  // Mobile menu stagger
+  const mobileTrail = useSprings(
+    navLinks.length + 1,
+    Array.from({ length: navLinks.length + 1 }, (_, index) => ({
+      opacity: mobileMenuOpen ? 1 : 0,
+      transform: mobileMenuOpen ? "translateX(0px)" : "translateX(-20px)",
+      delay: mobileMenuOpen ? index * 50 : 0,
+      config: { tension: 300, friction: 25 },
+    }))
+  );
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();

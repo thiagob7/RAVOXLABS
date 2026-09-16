@@ -147,7 +147,7 @@ export function useGlowSpring(hovered: boolean) {
   return useSpring({
     boxShadow: hovered
       ? "0 0 30px rgba(100, 103, 242, 0.4), 0 0 60px rgba(100, 103, 242, 0.2)"
-      : "0 0 0px rgba(100, 103, 242, 0)",
+      : "0 0 0px rgba(100, 103, 242, 0), 0 0 0px rgba(100, 103, 242, 0)",
     borderColor: hovered ? "rgba(100, 103, 242, 0.5)" : "rgba(39, 44, 53, 1)",
     config: config.gentle,
   });
