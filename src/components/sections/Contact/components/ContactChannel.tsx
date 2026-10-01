@@ -1,82 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { ReactNode, useState, useRef } from "react";
-import { animated, useSpring } from "react-spring";
-import gsap from "gsap";
+import { useRef } from "react";
+import { FiArrowUpRight } from "react-icons/fi";
+
+import type {
+  AnimatedIcon,
+  AnimatedIconHandle,
+} from "@/components/ui/animated-icon";
 
 interface ContactChannelProps {
-  icon: ReactNode;
+  icon: AnimatedIcon;
   label: string;
   value: string;
   href: string;
-  index?: number;
 }
 
 export const ContactChannel = ({
-  icon,
+  icon: Icon,
   label,
   value,
   href,
-  index = 0,
 }: ContactChannelProps) => {
-  const [hovered, setHovered] = useState(false);
-  const iconRef = useRef<HTMLDivElement>(null);
-
-  const containerSpring = useSpring({
-    transform: hovered ? "translateX(10px)" : "translateX(0px)",
-    config: { tension: 300, friction: 20 },
-  });
-
-  const iconSpring = useSpring({
-    transform: hovered ? "scale(1.1) rotate(5deg)" : "scale(1) rotate(0deg)",
-    config: { tension: 400, friction: 15 },
-  });
-
-  const handleMouseEnter = () => {
-    setHovered(true);
-    if (iconRef.current) {
-      gsap.to(iconRef.current, {
-        boxShadow: "0 0 20px rgba(100, 103, 242, 0.4)",
-        backgroundColor: "rgba(100, 103, 242, 0.2)",
-        duration: 0.3,
-      });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-    if (iconRef.current) {
-      gsap.to(iconRef.current, {
-        boxShadow: "0 0 0px rgba(100, 103, 242, 0)",
-        backgroundColor: "rgba(100, 103, 242, 0.1)",
-        duration: 0.3,
-      });
-    }
-  };
+  const iconRef = useRef<AnimatedIconHandle>(null);
 
   return (
-    <animated.div style={containerSpring}>
-      <Link
-        href={href}
-        className="flex items-start gap-4 group"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <animated.div
-          ref={iconRef}
-          style={iconSpring}
-          className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0 transition-colors duration-300"
-        >
-          <div className="text-blue-500">{icon}</div>
-        </animated.div>
-        <div className="flex flex-col">
-          <span className="text-sm font-medium text-gray-400">{label}</span>
-          <span className="text-base text-white group-hover:text-blue-500 transition-colors duration-300">
-            {value}
-          </span>
-        </div>
-      </Link>
-    </animated.div>
+    <Link
+      href={href}
+      onMouseEnter={() => iconRef.current?.startAnimation()}
+      onMouseLeave={() => iconRef.current?.stopAnimation()}
+      className="group flex items-center gap-4 rounded-xl border border-white/[0.06] bg-gray-850 p-4 transition-colors duration-300 hover:border-white/[0.12] hover:bg-white/[0.02]"
+    >
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] text-blue-500">
+        <Icon ref={iconRef} size={22} />
+      </span>
+
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="text-xs font-medium uppercase tracking-wider text-gray-400">
+          {label}
+        </span>
+        <span className="mt-0.5 truncate text-base font-medium text-gray-100">
+          {value}
+        </span>
+      </span>
+
+      <FiArrowUpRight className="h-5 w-5 shrink-0 text-gray-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gray-100" />
+    </Link>
   );
 };

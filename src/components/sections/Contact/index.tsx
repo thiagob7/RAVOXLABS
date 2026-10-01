@@ -1,9 +1,12 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { FiMail, FiPhone } from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import { LottieFromUrl } from "@/components/animations/LottieFromUrl";
+import { MailCheckIcon } from "@/components/ui/mail-check";
+import { PhoneIcon } from "@/components/ui/phone";
 
 import { ContactChannel } from "./components/ContactChannel";
 import { ContactForm } from "./components/ContactForm";
@@ -26,15 +29,15 @@ const contactData = {
         type: "email",
         label: "Email",
         value: "contato@ravoxlabs.com",
-        href: "mailto:contato@ravox.com",
-        icon: <FiMail className="w-6 h-6" />,
+        href: "mailto:contato@ravoxlabs.com",
+        icon: MailCheckIcon,
       },
       {
         type: "phone",
         label: "Telefone",
         value: "(71) 99244-6022",
         href: "tel:+5571992446022",
-        icon: <FiPhone className="w-6 h-6" />,
+        icon: PhoneIcon,
       },
     ],
   },
@@ -127,31 +130,58 @@ export const Contact = () => {
           }
         );
       }
+
+      // Animação ao lado do título entra junto com o texto
+      gsap.fromTo(
+        ".reveal-lottie",
+        { opacity: 0, scale: 0.8, y: 20 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.9,
+          delay: 0.2,
+          ease: "back.out(1.6)",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="contact" className="relative bg-gray-900 py-[120px] overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="relative bg-gray-900 py-[120px] overflow-hidden"
+    >
       {/* Background decorations */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-3xl" />
-
-      {/* Top border gradient */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+      {/* Afastados das bordas: colados nelas, o overflow corta o blur numa linha reta. */}
+      <div className="pointer-events-none absolute top-[20%] -right-40 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute bottom-[10%] -left-40 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-3xl" />
 
       <div className="container mx-auto max-[1359px]:px-4 max-w-content relative z-10">
-        <div ref={headerRef} className="flex flex-col items-center text-center">
-          <span className="text-sm font-medium text-blue-500 uppercase tracking-wider">
-            {contactData.eyebrow}
-          </span>
-          <h2 className="text-4xl font-bold text-white mt-2">
-            {contactData.title}
-          </h2>
-          <span className="text-lg text-white max-w-2xl mx-auto mt-4">
-            {contactData.subtitle}
-          </span>
+        <div className="flex items-center justify-between gap-8">
+          <div ref={headerRef} className="flex flex-col">
+            <span className="mb-4 block text-sm font-medium uppercase tracking-wider text-blue-500">
+              {contactData.eyebrow}
+            </span>
+            <h2 className="text-4xl font-bold text-white">
+              {contactData.title}
+            </h2>
+            <span className="mt-4 block max-w-2xl text-lg text-gray-400">
+              {contactData.subtitle}
+            </span>
+          </div>
+
+          <div className="reveal-lottie pointer-events-none -my-8 w-[150px] shrink-0 max-md:hidden lg:w-[180px]">
+            <LottieFromUrl src="/assets/lottie/chat-bubbles.json" />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mt-12">
@@ -163,15 +193,14 @@ export const Contact = () => {
               {contactData.left.description}
             </span>
 
-            <div className="flex flex-col gap-6 mt-8">
-              {contactData.left.channels.map((channel, index) => (
+            <div className="mt-8 flex flex-col gap-3">
+              {contactData.left.channels.map((channel) => (
                 <ContactChannel
                   key={channel.type}
                   icon={channel.icon}
                   label={channel.label}
                   value={channel.value}
                   href={channel.href}
-                  index={index}
                 />
               ))}
             </div>
@@ -179,7 +208,7 @@ export const Contact = () => {
 
           <div
             ref={rightRef}
-            className="bg-gray-850 rounded-2xl border border-gray-600 p-8 hover:border-blue-500/30 transition-colors duration-500"
+            className="relative rounded-xl border border-white/[0.06] bg-gray-850 p-6 md:p-8"
           >
             <ContactForm />
           </div>

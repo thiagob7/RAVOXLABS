@@ -1,19 +1,28 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import type { IconType } from "react-icons";
 import { useSpring, animated } from "react-spring";
+
+import { cn } from "@/lib/utils";
 
 interface StatCardProps {
   number: string;
   title: string;
+  icon: IconType;
   className?: string;
   index?: number;
 }
 
-export const StatCard = ({ number, title, className, index = 0 }: StatCardProps) => {
+export const StatCard = ({
+  number,
+  title,
+  icon: Icon,
+  className,
+  index = 0,
+}: StatCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   // Extract number and suffix (e.g., "50+" -> 50, "+")
   const numericMatch = number.match(/^(\d+)(.*)$/);
@@ -43,26 +52,29 @@ export const StatCard = ({ number, title, className, index = 0 }: StatCardProps)
     config: { duration: 2000 },
   });
 
-  const hoverSpring = useSpring({
-    transform: hovered ? "scale(1.05) translateY(-5px)" : "scale(1) translateY(0px)",
-    config: { tension: 300, friction: 20 },
-  });
-
   return (
-    <animated.div
+    <div
       ref={ref}
-      style={hoverSpring}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className={`flex flex-col items-center text-center p-6 rounded-2xl bg-gray-850/50 backdrop-blur-sm border border-gray-600/50 hover:border-blue-500/50 transition-colors duration-300 cursor-default ${className || ""}`}
+      className={cn(
+        "group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.035] to-white/[0.01] p-6 transition-colors duration-300 hover:border-blue-500/30",
+        className
+      )}
     >
-      <span className="text-5xl font-bold text-[#6467F2] mb-2">
-        <animated.span>
-          {animatedNumber.to((n) => Math.floor(n))}
-        </animated.span>
-        {suffix}
-      </span>
-      <span className="text-sm text-white font-medium">{title}</span>
-    </animated.div>
+      <span className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-blue-500/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+
+      <Icon className="relative h-5 w-5 text-blue-500" />
+
+      <div className="relative mt-8">
+        <span className="block text-4xl font-bold tracking-tight text-white md:text-5xl">
+          <animated.span>
+            {animatedNumber.to((n) => Math.floor(n))}
+          </animated.span>
+          <span className="text-blue-500">{suffix}</span>
+        </span>
+        <span className="mt-2 block text-sm font-medium text-gray-400">
+          {title}
+        </span>
+      </div>
+    </div>
   );
 };

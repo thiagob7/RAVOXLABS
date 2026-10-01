@@ -1,48 +1,59 @@
 "use client";
 
-import { ReactNode, useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import gsap from "gsap";
 
+import type {
+  AnimatedIcon,
+  AnimatedIconHandle,
+} from "@/components/ui/animated-icon";
+
 interface BenefitCardProps {
-  icon: ReactNode;
+  icon: AnimatedIcon;
   title: string;
   description: string;
-  index?: number;
+  /** Número exibido no canto, só como apoio visual. */
+  index: number;
 }
 
-export const BenefitCard = ({ icon, title, description, index = 0 }: BenefitCardProps) => {
+export const BenefitCard = ({
+  icon: Icon,
+  title,
+  description,
+  index,
+}: BenefitCardProps) => {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
+  const animatedIconRef = useRef<AnimatedIconHandle>(null);
   const glowRef = useRef<HTMLDivElement>(null);
 
   const cardSpring = useSpring({
-    transform: hovered
-      ? "scale(1.02) translateY(-8px)"
-      : "scale(1) translateY(0px)",
+    transform: hovered ? "translateY(-4px)" : "translateY(0px)",
     boxShadow: hovered
-      ? "0 20px 40px rgba(100, 103, 242, 0.15)"
-      : "0 0 0 rgba(100, 103, 242, 0)",
-    config: { tension: 300, friction: 20 },
+      ? "0 10px 24px rgba(0, 0, 0, 0.25)"
+      : "0 0px 0px rgba(0, 0, 0, 0)",
+    config: { tension: 280, friction: 26 },
   });
 
   const iconSpring = useSpring({
-    transform: hovered ? "scale(1.1) rotate(-5deg)" : "scale(1) rotate(0deg)",
+    transform: hovered ? "scale(1.05) rotate(-3deg)" : "scale(1) rotate(0deg)",
     config: { tension: 400, friction: 15 },
   });
 
   const handleMouseEnter = () => {
     setHovered(true);
+    animatedIconRef.current?.startAnimation();
     if (iconRef.current) {
       gsap.to(iconRef.current, {
-        backgroundColor: "rgba(100, 103, 242, 0.2)",
+        backgroundColor: "rgba(255, 255, 255, 0.06)",
         duration: 0.3,
       });
     }
     if (glowRef.current) {
       gsap.to(glowRef.current, {
-        opacity: 1,
+        opacity: 0.5,
         scale: 1,
         duration: 0.4,
       });
@@ -51,9 +62,10 @@ export const BenefitCard = ({ icon, title, description, index = 0 }: BenefitCard
 
   const handleMouseLeave = () => {
     setHovered(false);
+    animatedIconRef.current?.stopAnimation();
     if (iconRef.current) {
       gsap.to(iconRef.current, {
-        backgroundColor: "rgba(100, 103, 242, 0.1)",
+        backgroundColor: "rgba(255, 255, 255, 0.03)",
         duration: 0.3,
       });
     }
@@ -72,21 +84,30 @@ export const BenefitCard = ({ icon, title, description, index = 0 }: BenefitCard
       style={cardSpring}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative flex flex-col items-start text-start p-6 rounded-2xl bg-gray-900 border border-gray-600 hover:border-blue-500/50 transition-colors duration-300 cursor-pointer overflow-hidden"
+      className="group relative flex h-full flex-col items-start overflow-hidden rounded-2xl border border-gray-600 bg-gray-900 p-6 text-start transition-colors duration-300 hover:border-blue-500/25"
     >
       {/* Glow effect */}
       <div
         ref={glowRef}
-        className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl opacity-0 scale-75 pointer-events-none"
+        className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl opacity-0 scale-75 pointer-events-none"
       />
 
-      <animated.div
-        ref={iconRef}
-        style={iconSpring}
-        className="text-blue-500 bg-blue-500/10 p-3 rounded-xl w-12 h-12 flex items-center justify-center transition-colors duration-300"
-      >
-        {icon}
-      </animated.div>
+      <div className="flex w-full items-start justify-between">
+        <animated.div
+          ref={iconRef}
+          style={iconSpring}
+          className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] text-blue-500"
+        >
+          <Icon ref={animatedIconRef} size={24} />
+        </animated.div>
+
+        <span
+          aria-hidden
+          className="font-mono text-sm tabular-nums text-gray-600 transition-colors duration-300 group-hover:text-gray-400"
+        >
+          {String(index).padStart(2, "0")}
+        </span>
+      </div>
 
       <h3 className="text-xl font-semibold text-gray-100 mt-6">{title}</h3>
       <span className="text-gray-400 leading-relaxed mt-2">{description}</span>

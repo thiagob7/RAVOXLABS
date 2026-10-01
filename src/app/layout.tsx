@@ -3,10 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "@/styles/globals.css";
-import { Footer } from "@/components/common/Footer";
-import { Header } from "@/components/common/Header";
-import { StructuredData } from "@/components/common/StructuredData";
-import { LoadingProvider } from "@/components/providers/LoadingProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -102,14 +98,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
-      <body className={`${inter.variable} antialiased`}>
-        <LoadingProvider>
-          <StructuredData />
-          <Header />
-          {children}
-          <Footer />
-        </LoadingProvider>
-      </body>
+      <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }

@@ -1,44 +1,71 @@
 "use client";
 
-import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useEffect } from "react";
 
 import { AirplayIcon } from "@/components/ui/airplay";
+import { ChartNoAxesColumnIncreasingIcon } from "@/components/ui/chart-no-axes-column-increasing";
 import { LayoutGridIcon } from "@/components/ui/layout-grid";
 import { PaletteIcon } from "@/components/ui/palette";
+import { SearchIcon } from "@/components/ui/search";
+import { SettingsIcon } from "@/components/ui/settings";
+import type { Project } from "@/data/projects";
 
+import { DeviceShowcase } from "./components/DeviceShowcase";
 import { ServiceCard } from "./components/ServiceCard";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Ordem = posição na grade: 0 é o card grande, 1–4 o bloco 2x2 e o
+// último vira a faixa larga no fim.
 const services = [
   {
     icon: AirplayIcon,
     title: "Sites profissionais",
-    href: "/services/sites-professional",
     description:
-      "Sites rápidos, responsivos e modernos criados para fortalecer sua presença digital.",
+      "Sites rápidos, responsivos e modernos criados para fortalecer sua presença digital e trazer clientes.",
   },
   {
     icon: LayoutGridIcon,
     title: "Sistemas e dashboards",
-    href: "/services/system-and-dashboard",
     description:
-      "Desenvolvimento de sistemas personalizados para automação de processos e gestão.",
+      "Sistemas personalizados para organizar processos, automatizar a gestão e acompanhar resultados.",
+  },
+  {
+    icon: SearchIcon,
+    title: "SEO e presença no Google",
+    description:
+      "Estrutura e conteúdo otimizados para sua empresa ser encontrada por quem procura.",
   },
   {
     icon: PaletteIcon,
     title: "Design UI/UX",
-    href: "/services/design-ui-ux",
     description:
       "Interfaces modernas, intuitivas e centradas na experiência do usuário.",
   },
+  {
+    icon: ChartNoAxesColumnIncreasingIcon,
+    title: "Tráfego pago",
+    description:
+      "Campanhas no Google e nas redes sociais para alcançar as pessoas certas.",
+  },
+  {
+    icon: SettingsIcon,
+    title: "Automações e integrações",
+    description:
+      "Conecte suas ferramentas, automatize tarefas repetitivas e simplifique a rotina do seu negócio.",
+  },
 ];
 
-export const Services = () => {
+interface ServicesProps {
+  /** Projeto cujo print aparece no card de sites. */
+  showcase?: Project;
+}
+
+export const Services = ({ showcase }: ServicesProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -72,12 +99,11 @@ export const Services = () => {
         const cards = cardsRef.current.children;
         gsap.fromTo(
           cards,
-          { opacity: 0, y: 80, rotateY: -15 },
+          { opacity: 0, y: 60 },
           {
             opacity: 1,
             y: 0,
-            rotateY: 0,
-            duration: 1,
+            duration: 0.9,
             stagger: 0.2,
             ease: "power3.out",
             scrollTrigger: {
@@ -94,36 +120,54 @@ export const Services = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="services" className="relative bg-gray-650 py-[120px] overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-
-      <div className="flex flex-col items-center justify-center max-w-content mx-auto max-[1359px]:px-4 relative z-10">
-        <div ref={headerRef}>
-          <h2 className="text-4xl font-bold text-white text-center">
-            Nossos serviços
-          </h2>
-
-          <span className="text-lg text-gray-400 text-center mx-auto mt-4 block">
-            Soluções completas para transformar sua presença digital
+    <section
+      ref={sectionRef}
+      id="services"
+      className="relative overflow-hidden bg-gray-650 pt-[120px] pb-16 max-md:pt-20 max-md:pb-8"
+    >
+      <div className="relative z-10 mx-auto max-w-content max-[1359px]:px-4">
+        <div ref={headerRef} className="flex flex-col items-start">
+          <span className="mb-4 block text-sm font-medium uppercase tracking-wider text-blue-500">
+            O que fazemos
           </span>
+
+          <h2 className="text-4xl font-bold leading-tight text-white md:text-5xl">
+            Soluções para o seu negócio
+            <br />
+            <span className="text-blue-500">crescer no digital.</span>
+          </h2>
         </div>
 
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 perspective-1000"
+          className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr]"
         >
-          {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              href={service.href}
-              index={index}
-            />
-          ))}
+          {services.map((service, index) => {
+            const featured = index === 0;
+            const wide = index === services.length - 1;
+            return (
+              <ServiceCard
+                key={service.title}
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+                href="#get-started"
+                index={index}
+                featured={featured}
+                wide={wide}
+                visual={
+                  featured ? <DeviceShowcase project={showcase} /> : undefined
+                }
+                className={
+                  featured
+                    ? "md:col-span-2 lg:col-span-1 lg:row-span-2"
+                    : wide
+                      ? "md:col-span-2 lg:col-span-3"
+                      : undefined
+                }
+              />
+            );
+          })}
         </div>
       </div>
     </section>

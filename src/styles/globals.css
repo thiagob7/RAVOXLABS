@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* O site é escuro em qualquer sistema: seções com fundo semitransparente
+     (bg-gray-550) ficavam claras quando o SO estava no modo claro. */
+  --background: #080A0C;
+  --foreground: #ededed;
 
   --bg-banner: url('/assets/img/bg-banner.png');
-  --bg-budget: url('/assets/img/budget.png');
 }
 
 @theme {
@@ -25,18 +26,33 @@
 
   --color-blue-500: #6467F2; /* background icons & texts*/
 
+  /* painel admin (tons extras, não usados pelo site) */
+  --color-black: #000000;
+  --color-gray-300: #B4B8C2; /* labels / muted */
+  --color-gray-500: #6B7180; /* placeholder / subtle */
+  --color-gray-700: #272C35; /* borders / hover */
+  --color-gray-800: #15181D; /* inputs / secondary buttons */
+  --color-gray-950: #050607;
+  --color-blue-400: #3A86FF;
+  --color-green-600: #24A84F;
+  --color-purple-400: #8B5CF6;
+  --color-yellow-200: #FDEE00;
+  --color-warning-fill: #FDEE00;
+  --color-warning-foreground: #050607;
+  --color-warning-subtle: #3D3712;
+  --color-disabled-bg: #15181D;
+  --color-disabled-border: #272C35;
+  --color-disabled-foreground: #6B7180;
+
+  --color-red-300: #FCA5A5; /* feedback texts */
+  --color-red-400: #F87171; /* errors */
+  --color-green-400: #4ADE80; /* status */
+  --color-amber-400: #FBBF24; /* featured */
+
 
   /* max-width */
   --max-width-content: 1359px;
 
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-
-  }
 }
 
 body {
@@ -83,10 +99,6 @@ html {
 @layer utilities {
   .bg-banner {
     background-image: var(--bg-banner);
-  }
-
-  .bg-budget {
-    background-image: var(--bg-budget);
   }
 
   /* Perspective utility for 3D transforms */
@@ -414,4 +426,170 @@ button:active {
   background: rgba(8, 10, 12, 0.8);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(39, 44, 53, 0.3);
+}
+
+/* Painel admin: animações do Sheet (sidebar mobile), portadas do TorneioX */
+@layer utilities {
+  @keyframes tx-sheet-overlay-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes tx-sheet-overlay-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes tx-sheet-in-right {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes tx-sheet-out-right {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes tx-sheet-in-left {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes tx-sheet-out-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes tx-sheet-in-top {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes tx-sheet-out-top {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes tx-sheet-in-bottom {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes tx-loading-line {
+    0% {
+      transform: translateX(-110%);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(110%);
+      opacity: 0;
+    }
+  }
+
+  .animate-loading-line {
+    animation: tx-loading-line 1.4s ease-in-out infinite;
+  }
+
+  @keyframes tx-sheet-out-bottom {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+  .tx-sheet-overlay[data-state='open'] {
+    animation: tx-sheet-overlay-in 160ms ease-out forwards;
+  }
+
+  .tx-sheet-overlay[data-state='closed'] {
+    animation: tx-sheet-overlay-out 120ms ease-in forwards;
+  }
+
+  .tx-sheet-content[data-state='open'] {
+    animation-duration: 280ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: both;
+  }
+
+  .tx-sheet-content[data-state='closed'] {
+    animation-duration: 180ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    animation-fill-mode: both;
+  }
+
+  .tx-sheet-side-right[data-state='open'] {
+    animation-name: tx-sheet-in-right;
+  }
+
+  .tx-sheet-side-right[data-state='closed'] {
+    animation-name: tx-sheet-out-right;
+  }
+
+  .tx-sheet-side-left[data-state='open'] {
+    animation-name: tx-sheet-in-left;
+  }
+
+  .tx-sheet-side-left[data-state='closed'] {
+    animation-name: tx-sheet-out-left;
+  }
+
+  .tx-sheet-side-top[data-state='open'] {
+    animation-name: tx-sheet-in-top;
+  }
+
+  .tx-sheet-side-top[data-state='closed'] {
+    animation-name: tx-sheet-out-top;
+  }
+
+  .tx-sheet-side-bottom[data-state='open'] {
+    animation-name: tx-sheet-in-bottom;
+  }
+
+  .tx-sheet-side-bottom[data-state='closed'] {
+    animation-name: tx-sheet-out-bottom;
+  }
 }

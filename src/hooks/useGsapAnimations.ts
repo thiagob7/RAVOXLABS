@@ -10,14 +10,12 @@ if (typeof window !== "undefined") {
 }
 
 // Fade up animation on scroll
-export function useFadeUp<T extends HTMLElement>(
-  options?: {
-    delay?: number;
-    duration?: number;
-    y?: number;
-    start?: string;
-  }
-): RefObject<T | null> {
+export function useFadeUp<T extends HTMLElement>(options?: {
+  delay?: number;
+  duration?: number;
+  y?: number;
+  start?: string;
+}): RefObject<T | null> {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -58,14 +56,12 @@ export function useFadeUp<T extends HTMLElement>(
 }
 
 // Stagger children animation
-export function useStaggerChildren<T extends HTMLElement>(
-  options?: {
-    stagger?: number;
-    duration?: number;
-    y?: number;
-    start?: string;
-  }
-): RefObject<T | null> {
+export function useStaggerChildren<T extends HTMLElement>(options?: {
+  stagger?: number;
+  duration?: number;
+  y?: number;
+  start?: string;
+}): RefObject<T | null> {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -107,13 +103,11 @@ export function useStaggerChildren<T extends HTMLElement>(
 }
 
 // Scale up animation
-export function useScaleUp<T extends HTMLElement>(
-  options?: {
-    delay?: number;
-    duration?: number;
-    scale?: number;
-  }
-): RefObject<T | null> {
+export function useScaleUp<T extends HTMLElement>(options?: {
+  delay?: number;
+  duration?: number;
+  scale?: number;
+}): RefObject<T | null> {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -188,13 +182,11 @@ export function useParallax<T extends HTMLElement>(
 }
 
 // Text reveal animation (split by words)
-export function useTextReveal<T extends HTMLElement>(
-  options?: {
-    delay?: number;
-    duration?: number;
-    stagger?: number;
-  }
-): RefObject<T | null> {
+export function useTextReveal<T extends HTMLElement>(options?: {
+  delay?: number;
+  duration?: number;
+  stagger?: number;
+}): RefObject<T | null> {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -253,9 +245,10 @@ export function useSlideIn<T extends HTMLElement>(
     if (!ref.current) return;
 
     const element = ref.current;
-    const x = direction === "left"
-      ? -(options?.distance ?? 100)
-      : (options?.distance ?? 100);
+    const x =
+      direction === "left"
+        ? -(options?.distance ?? 100)
+        : (options?.distance ?? 100);
 
     gsap.fromTo(
       element,
@@ -290,13 +283,11 @@ export function useSlideIn<T extends HTMLElement>(
 }
 
 // Rotate in animation
-export function useRotateIn<T extends HTMLElement>(
-  options?: {
-    delay?: number;
-    duration?: number;
-    rotation?: number;
-  }
-): RefObject<T | null> {
+export function useRotateIn<T extends HTMLElement>(options?: {
+  delay?: number;
+  duration?: number;
+  rotation?: number;
+}): RefObject<T | null> {
   const ref = useRef<T>(null);
 
   useEffect(() => {

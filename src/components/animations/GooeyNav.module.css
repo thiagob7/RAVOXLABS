@@ -1,0 +1,202 @@
+/* Adaptado de https://www.reactbits.dev/components/gooey-nav */
+
+.container {
+  position: relative;
+}
+
+.list {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  border-radius: 9999px;
+  color: var(--color-gray-100);
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.item:hover {
+  background-color: rgb(255 255 255 / 0.06);
+}
+
+.item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 9999px;
+  background: #fff;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+}
+
+.item.active {
+  color: var(--color-gray-900);
+  background-color: transparent;
+}
+
+.item.active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.link {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  outline: none;
+  border-radius: 9999px;
+}
+
+.link:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-blue-500);
+}
+
+.effect {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.text {
+  z-index: 4;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.text.active {
+  color: var(--color-gray-900);
+}
+
+/* O "goo": o filtro SVG (blur + limiar de alpha) funde a pílula com as
+   partículas sem precisar de fundo sólido atrás. */
+.filter {
+  filter: var(--goo-filter);
+}
+
+.filter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 9999px;
+  background: #fff;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.filter.active::after {
+  animation: pill 0.3s ease both;
+}
+
+@keyframes pill {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.particle,
+.point {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  opacity: 0;
+  transform-origin: center;
+}
+
+.particle {
+  --time: 5s;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: calc(50% - 8px);
+  animation: particle calc(var(--time)) ease 1 -350ms;
+}
+
+.point {
+  background: var(--color);
+  opacity: 1;
+  animation: point calc(var(--time)) ease 1 -350ms;
+}
+
+@keyframes particle {
+  0% {
+    transform: rotate(0deg) translate(var(--start-x), var(--start-y));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  70% {
+    transform: rotate(calc(var(--rotate) * 0.5))
+      translate(calc(var(--end-x) * 1.2), calc(var(--end-y) * 1.2));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  85% {
+    transform: rotate(calc(var(--rotate) * 0.66))
+      translate(var(--end-x), var(--end-y));
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(calc(var(--rotate) * 1.2))
+      translate(calc(var(--end-x) * 0.5), calc(var(--end-y) * 0.5));
+    opacity: 1;
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  25% {
+    transform: scale(calc(var(--scale) * 0.25));
+  }
+  38% {
+    opacity: 1;
+  }
+  65% {
+    transform: scale(var(--scale));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  85% {
+    transform: scale(var(--scale));
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .point,
+  .filter.active::after {
+    animation: none;
+  }
+}

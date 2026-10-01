@@ -3,15 +3,19 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useEffect } from "react";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiCheck } from "react-icons/fi";
 
-import { InteractiveParticles } from "../../animations/InteractiveParticles";
+import { GradientWaves } from "../../animations/GradientWaves";
+import { LottieFromUrl } from "../../animations/LottieFromUrl";
 import { MagneticButton } from "../../animations/MagneticButton";
+import { ShinyText } from "../../animations/ShinyText";
 import { Button } from "../../ui/Button";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+const highlights = ["Entrega ágil", "Suporte próximo", "Design sob medida"];
 
 export const Banner = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -20,6 +24,8 @@ export const Banner = () => {
   const subtitleRef = useRef<HTMLSpanElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const highlightsRef = useRef<HTMLUListElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -79,6 +85,30 @@ export const Banner = () => {
         );
       }
 
+      // Highlights
+      if (highlightsRef.current) {
+        tl.fromTo(
+          highlightsRef.current.children,
+          { opacity: 0, y: 12 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power2.out",
+          },
+          "-=0.3"
+        );
+      }
+
+      // Visual entra pela direita junto com o título
+      tl.fromTo(
+        visualRef.current,
+        { opacity: 0, x: 60, scale: 0.92 },
+        { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: "power3.out" },
+        0.3
+      );
+
       // Parallax background effect
       if (bgRef.current) {
         gsap.to(bgRef.current, {
@@ -92,15 +122,6 @@ export const Banner = () => {
           },
         });
       }
-
-      // Text glow pulse animation
-      gsap.to(".text-blue-glow", {
-        textShadow: "0 0 40px rgba(100, 103, 242, 0.6)",
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -110,109 +131,146 @@ export const Banner = () => {
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-screen flex items-center justify-center bg-gray-900 overflow-hidden pt-16"
+      className="relative min-h-screen flex items-center justify-center bg-gray-900 overflow-hidden pt-24"
     >
-      {/* Background image with parallax */}
+      {/* Ondas em gradiente (React Bits) na parte de baixo do hero */}
       <div
         ref={bgRef}
-        className="absolute inset-0 bg-banner bg-left bg-no-repeat bg-cover will-change-transform opacity-40"
-      />
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[60%] will-change-transform [mask-image:linear-gradient(to_bottom,transparent,black_35%)]"
+      >
+        {/* Horizonte escuro + ondas roxas com cristas claras: mantém o
+            fundo escuro atrás do texto e deixa o relevo das ondas visível. */}
+        <GradientWaves
+          horizonColor="#15163F"
+          waveColor="#2B2D8F"
+          crestColor="#A5A7FF"
+          amplitude={1.2}
+          fogDepth={18}
+          brightness={0.7}
+          grainIntensity={0.03}
+          mouseInteraction={false}
+        />
+      </div>
 
-      {/* Interactive particles with lines - react to mouse */}
-      <InteractiveParticles
-        className="z-[5]"
-        particleCount={70}
-        color="100, 103, 242"
-        lineColor="100, 103, 242"
-        maxDistance={120}
-        mouseRadius={150}
-        mouseForce={10}
-      />
-
-      {/* Static ambient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none z-[1]" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-500/8 rounded-full blur-[100px] pointer-events-none z-[1]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[80px] pointer-events-none z-[1]" />
-
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/20 to-gray-900 z-[3] pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900/60 via-transparent to-gray-900/60 z-[3] pointer-events-none" />
-
-      {/* Grid pattern overlay */}
+      {/* Emenda suave com a próxima seção */}
       <div
-        className="absolute inset-0 z-[2] opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(100, 103, 242, 0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(100, 103, 242, 0.5) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-        }}
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-32 bg-gradient-to-b from-transparent to-gray-900"
       />
 
       {/* Content */}
-      <div className="flex flex-col relative z-10 mx-auto text-center max-[1359px]:px-4 max-w-content">
-        {/* Badge */}
-        <div
-          ref={badgeRef}
-          className="inline-flex items-center mx-auto gap-2 px-4 py-2 rounded-full bg-gray-650/80 backdrop-blur-md border border-gray-600 hover:border-blue-500/50 transition-all duration-300"
-        >
-          <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-          <span className="text-white text-sm font-medium">
-            Soluções digitais para pequenos negócios
+      <div className="relative z-10 mx-auto grid w-full max-w-content items-center gap-12 pb-24 pt-10 max-[1359px]:px-4 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8 lg:pb-16">
+        {/* Texto */}
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+          {/* Badge */}
+          <div
+            ref={badgeRef}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-650/80 backdrop-blur-md border border-gray-600 hover:border-blue-500/50 transition-all duration-300"
+          >
+            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-white text-sm font-medium">
+              Soluções digitais para pequenos negócios
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h1
+            ref={headingRef}
+            className="mt-7 text-[34px] font-bold leading-[1.1] tracking-tight text-white md:text-[48px] xl:text-[60px] perspective-1000"
+          >
+            <span className="heading-line block">Tecnologia e design</span>
+            <span className="heading-line block">acessíveis para</span>
+            <span className="heading-line block">
+              <ShinyText
+                baseColor="#6467F2"
+                shineColor="rgba(214, 216, 255, 0.95)"
+                // Folga embaixo para o background-clip não cortar o "g"
+                className="inline-block pb-[0.15em] -mb-[0.15em]"
+              >
+                pequenos negócios.
+              </ShinyText>
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <span
+            ref={subtitleRef}
+            className="mt-6 max-w-xl text-lg leading-relaxed text-gray-400 max-md:text-base"
+          >
+            Criamos sites, sistemas e interfaces modernas para autônomos e
+            pequenas empresas que querem se posicionar digitalmente.
           </span>
+
+          {/* Buttons */}
+          <div
+            ref={buttonsRef}
+            className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+          >
+            <MagneticButton strength={0.2}>
+              <Button
+                href="#get-started"
+                className="gap-2 group hover:shadow-lg hover:shadow-blue-500/25 transition-shadow duration-300"
+              >
+                Começar agora
+                <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </MagneticButton>
+
+            <MagneticButton strength={0.2}>
+              <Button
+                href="#services"
+                variant="soft"
+                className="transition-colors duration-300"
+              >
+                Nossos serviços
+              </Button>
+            </MagneticButton>
+          </div>
+
+          {/* Diferenciais rápidos */}
+          <ul
+            ref={highlightsRef}
+            className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-gray-300 lg:justify-start"
+          >
+            {highlights.map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/15 text-blue-500">
+                  <FiCheck className="h-3 w-3" strokeWidth={3} />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Heading */}
-        <h1
-          ref={headingRef}
-          className="text-[60px] max-md:text-[32px] font-bold text-white leading-tight mx-auto mt-8 perspective-1000"
-        >
-          <span className="heading-line block">
-            Tecnologia e design acessíveis para
-          </span>
-          <span className="heading-line block">
-            <span className="text-blue-500 text-blue-glow inline-block">
-              pequenos negócios.
-            </span>
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <span
-          ref={subtitleRef}
-          className="text-lg text-gray-400 mb-10 max-w-2xl max-md:text-sm mx-auto leading-relaxed mt-6"
-        >
-          Criamos sites, sistemas e interfaces modernas para autônomos e
-          pequenas empresas que querem se posicionar digitalmente.
-        </span>
-
-        {/* Buttons */}
+        {/* Visual: notebook 3D montando um site (Lottie) */}
         <div
-          ref={buttonsRef}
-          className="flex flex-wrap items-center justify-center gap-4 mb-20"
+          ref={visualRef}
+          aria-hidden
+          className="pointer-events-none relative mx-auto w-full max-w-[420px] sm:max-w-[540px] lg:max-w-[640px]"
         >
-          <MagneticButton strength={0.2}>
-            <Button
-              href="#get-started"
-              className="flex-1 gap-2 group max-w-[212px] w-full hover:shadow-lg hover:shadow-blue-500/25 transition-shadow duration-300"
-            >
-              Começar agora
-              <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </MagneticButton>
-
-          <MagneticButton strength={0.2}>
-            <Button
-              href="#services"
-              variant="outline"
-              className="flex-1 max-w-[212px] w-full transition-colors duration-300"
-            >
-              Nossos serviços
-            </Button>
-          </MagneticButton>
+          <div className="absolute inset-x-[12%] inset-y-[8%] rounded-full bg-blue-500/25 blur-[90px]" />
+          <LottieFromUrl
+            src="/assets/lottie/website-development-3d.json"
+            className="relative w-full"
+          />
         </div>
       </div>
+
+      {/* TODO: astronauta desativado por enquanto; para reativar, descomente.
+      {/ * Space boy developer sitting on the bottom edge * /}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[7] max-md:hidden">
+        {/ * Mesmo container do header, para alinhar com a logo * /}
+        <div className="mx-auto max-w-content max-[1359px]:px-4">
+          {/ * A animação tem margem interna: 14,8% à esquerda e 10% embaixo.
+              Deslocar exatamente isso encosta a base do astronauta na borda. * /}
+          <div className="w-[220px] -translate-x-[15%] translate-y-[10%] lg:w-[280px]">
+            <LottieFromUrl src="/assets/lottie/space-boy-developer.json" />
+          </div>
+        </div>
+      </div>
+      */}
 
       {/* Scroll indicator - Mouse */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">

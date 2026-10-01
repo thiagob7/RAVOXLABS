@@ -1,19 +1,19 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import {
-  FiZap,
-  FiShield,
-  FiClock,
-  FiTrendingUp,
-  FiUsers,
-  FiCheckCircle,
-} from "react-icons/fi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { BenefitCard } from "./components/BenefitCard";
+import { LottieFromUrl } from "@/components/animations/LottieFromUrl";
 import { ShinyText } from "@/components/animations/ShinyText";
+import { AlarmClockCheckIcon } from "@/components/ui/alarm-clock-check";
+import { ChartNoAxesColumnIncreasingIcon } from "@/components/ui/chart-no-axes-column-increasing";
+import { CircleCheckIcon } from "@/components/ui/circle-check";
+import { RocketIcon } from "@/components/ui/rocket";
+import { ShieldCheckIcon } from "@/components/ui/shield-check";
+import { UsersIcon } from "@/components/ui/users";
+
+import { BenefitCard } from "./components/BenefitCard";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -21,32 +21,32 @@ if (typeof window !== "undefined") {
 
 const benefits = [
   {
-    icon: <FiZap className="w-6 h-6" />,
+    icon: RocketIcon,
     title: "Agilidade",
     description: "Entregas rápidas sem comprometer a qualidade do projeto.",
   },
   {
-    icon: <FiShield className="w-6 h-6" />,
+    icon: ShieldCheckIcon,
     title: "Segurança",
     description: "Seus dados e projetos protegidos com as melhores práticas.",
   },
   {
-    icon: <FiClock className="w-6 h-6" />,
+    icon: AlarmClockCheckIcon,
     title: "Pontualidade",
     description: "Cumprimos prazos rigorosamente para sua tranquilidade.",
   },
   {
-    icon: <FiTrendingUp className="w-6 h-6" />,
+    icon: ChartNoAxesColumnIncreasingIcon,
     title: "Resultados",
     description: "Foco em métricas que realmente impactam seu negócio.",
   },
   {
-    icon: <FiUsers className="w-6 h-6" />,
+    icon: UsersIcon,
     title: "Parceria",
     description: "Relacionamento próximo e suporte contínuo.",
   },
   {
-    icon: <FiCheckCircle className="w-6 h-6" />,
+    icon: CircleCheckIcon,
     title: "Qualidade",
     description: "Padrões elevados em cada detalhe do projeto.",
   },
@@ -109,31 +109,60 @@ export const Benefits = () => {
           );
         });
       }
+
+      // Animação ao lado do título entra junto com o texto
+      gsap.fromTo(
+        ".reveal-lottie",
+        { opacity: 0, scale: 0.8, y: 20 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.9,
+          delay: 0.2,
+          ease: "back.out(1.6)",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="benefits" className="relative bg-gray-550 py-[120px] overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+    <section
+      ref={sectionRef}
+      id="benefits"
+      className="relative overflow-hidden bg-gray-550 py-[120px] max-md:py-16"
+    >
+      {/* Afastados das bordas: colados nelas, o overflow corta o blur numa linha reta. */}
+      <div className="pointer-events-none absolute top-[15%] -right-32 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-[15%] -left-32 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
 
       <div className="flex flex-col items-start justify-center container mx-auto max-[1359px]:px-4 max-w-content relative z-10">
-        <div ref={headerRef}>
-          <span className="text-sm font-medium text-blue-500 uppercase tracking-wider mb-4 block">
-            POR QUE NOS ESCOLHER
-          </span>
+        <div className="flex w-full items-center justify-between gap-8">
+          <div ref={headerRef}>
+            <span className="text-sm font-medium text-blue-500 uppercase tracking-wider mb-4 block">
+              POR QUE NOS ESCOLHER
+            </span>
 
-          <h2 className="text-4xl font-bold text-start">
-            <ShinyText>Benefícios exclusivos</ShinyText>
-          </h2>
+            <h2 className="text-4xl font-bold text-start">
+              <ShinyText>Benefícios exclusivos</ShinyText>
+            </h2>
 
-          <span className="text-lg text-gray-400 text-start mt-4 max-w-2xl block">
-            Trabalhamos para entregar não apenas projetos, mas experiências que
-            transformam seu negócio.
-          </span>
+            <span className="text-lg text-gray-400 text-start mt-4 max-w-2xl block">
+              Trabalhamos para entregar não apenas projetos, mas experiências
+              que transformam seu negócio.
+            </span>
+          </div>
+
+          <div className="reveal-lottie pointer-events-none w-[110px] shrink-0 max-md:hidden lg:w-[130px]">
+            <LottieFromUrl src="/assets/lottie/quality-badge.json" />
+          </div>
         </div>
 
         <div
@@ -142,11 +171,11 @@ export const Benefits = () => {
         >
           {benefits.map((benefit, index) => (
             <BenefitCard
-              key={index}
+              key={benefit.title}
+              index={index + 1}
               icon={benefit.icon}
               title={benefit.title}
               description={benefit.description}
-              index={index}
             />
           ))}
         </div>

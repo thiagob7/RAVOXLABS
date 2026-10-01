@@ -14,6 +14,8 @@ const buttonVariants = cva(
         outline:
           "border border-white text-white hover:bg-white hover:text-gray-900 focus:ring-blue-500",
         ghost: "text-blue-500 hover:bg-blue-500/10 focus:ring-blue-500",
+        // Secundário ao lado do botão cheio: tem forma, sem competir com ele.
+        soft: "border border-white/15 bg-white/[0.04] text-gray-100 hover:border-white/30 hover:bg-white/[0.09] focus:ring-white/40",
         white: "bg-gray-100 text-gray-900 hover:bg-white/80 focus:ring-white",
       },
       size: {

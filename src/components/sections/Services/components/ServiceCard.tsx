@@ -1,33 +1,30 @@
 "use client";
 
+import { useInView } from "motion/react";
 import Link from "next/link";
-import {
-  ForwardRefExoticComponent,
-  RefAttributes,
-  useRef,
-  useState,
-} from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { animated, useSpring } from "react-spring";
 
-export interface AnimatedIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
-}
-
-export type AnimatedIcon = ForwardRefExoticComponent<
-  { size?: number; className?: string } & RefAttributes<AnimatedIconHandle>
->;
+import type {
+  AnimatedIcon,
+  AnimatedIconHandle,
+} from "@/components/ui/animated-icon";
+import { cn } from "@/lib/utils";
 
 interface ServiceCardProps {
   icon: AnimatedIcon;
   title: string;
   description: string;
+  /** Para onde o "Solicitar orçamento" leva. */
   href: string;
   index: number;
+  /** Card grande, com ilustração acima do texto. */
+  featured?: boolean;
+  /** Faixa larga: texto à esquerda e ação à direita (no desktop). */
+  wide?: boolean;
+  visual?: ReactNode;
+  className?: string;
 }
-
-const AnimatedLink = animated(Link);
 
 export const ServiceCard = ({
   icon: Icon,
@@ -35,54 +32,101 @@ export const ServiceCard = ({
   description,
   href,
   index,
+  featured = false,
+  wide = false,
+  visual,
+  className,
 }: ServiceCardProps) => {
-  const [hovered, setHovered] = useState(false);
   const iconRef = useRef<AnimatedIconHandle>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(cardRef, { once: true, amount: 0.5 });
 
-  const handleMouseEnter = () => {
-    setHovered(true);
-    iconRef.current?.startAnimation();
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-    iconRef.current?.stopAnimation();
-  };
-
-  const cardSpring = useSpring({
-    transform: hovered ? "translateY(-4px)" : "translateY(0px)",
-    config: { tension: 280, friction: 26 },
-  });
+  // Toca a animação do ícone quando o card aparece, em cascata.
+  useEffect(() => {
+    if (!inView) return;
+    const timer = setTimeout(
+      () => iconRef.current?.startAnimation(),
+      300 + index * 180
+    );
+    return () => clearTimeout(timer);
+  }, [inView, index]);
 
   return (
-    <AnimatedLink
-      href={href}
-      style={cardSpring}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-gray-850 p-7 transition-colors duration-300 will-change-transform hover:border-white/[0.12]"
+    <div
+      ref={cardRef}
+      onMouseEnter={() => iconRef.current?.startAnimation()}
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.035] to-white/[0.01] transition-colors duration-300 hover:border-blue-500/30",
+        featured ? "p-7 md:p-8" : "p-7",
+        wide && "lg:flex-row lg:items-center lg:justify-between lg:gap-10",
+        className
+      )}
     >
-      {/* Top edge highlight */}
-      <span className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Brilho no canto ao passar o mouse */}
+      <span className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-blue-500/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] text-gray-400 transition-colors duration-300 group-hover:text-blue-500">
-          <Icon ref={iconRef} size={22} />
+      {featured && visual && <div className="relative mb-8">{visual}</div>}
+
+      <div
+        className={cn(
+          "relative flex gap-4",
+          featured ? "flex-col" : "items-start"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-4 text-blue-500",
+            !featured && "pt-0.5"
+          )}
+        >
+          <Icon ref={iconRef} size={featured ? 34 : 30} />
+          {featured && (
+            <h3 className="text-2xl font-semibold text-gray-100 md:text-[28px]">
+              {title}
+            </h3>
+          )}
         </div>
-        <span className="font-mono text-xs tracking-wider text-gray-400/50">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+
+        <div>
+          {!featured && (
+            <h3 className="text-lg font-semibold text-gray-100">{title}</h3>
+          )}
+          <p
+            className={cn(
+              "leading-relaxed text-gray-400",
+              featured ? "max-w-md text-base" : "mt-1.5 text-[15px]"
+            )}
+          >
+            {description}
+          </p>
+        </div>
       </div>
 
-      <h3 className="mt-8 text-lg font-semibold text-gray-100">{title}</h3>
-      <p className="mt-2 text-[15px] leading-relaxed text-gray-400">
-        {description}
-      </p>
-
-      <span className="mt-auto flex items-center gap-1.5 pt-8 text-sm font-medium text-gray-400 transition-colors duration-300 group-hover:text-gray-100">
-        Saiba mais
-        <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-      </span>
-    </AnimatedLink>
+      <div
+        className={cn(
+          "relative mt-auto flex items-center justify-between pt-8",
+          wide && "lg:mt-0 lg:shrink-0 lg:gap-6 lg:pt-0"
+        )}
+      >
+        <Link
+          href={href}
+          className={cn(
+            "text-sm font-medium transition-colors duration-300",
+            featured
+              ? "text-blue-500 hover:text-[#8B8DF7]"
+              : "text-gray-100 hover:text-blue-500"
+          )}
+        >
+          Solicitar orçamento
+        </Link>
+        <Link
+          href={href}
+          aria-label={`Solicitar orçamento de ${title}`}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-blue-500/60 text-gray-100 transition-all duration-300 group-hover:border-blue-500 group-hover:bg-blue-500 group-hover:text-white"
+        >
+          <FiArrowRight className="h-[18px] w-[18px] transition-transform duration-300 group-hover:-rotate-45" />
+        </Link>
+      </div>
+    </div>
   );
 };
