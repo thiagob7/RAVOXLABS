@@ -45,18 +45,22 @@ const loadPublishedProjects = unstable_cache(
   { tags: [PROJECTS_TAG] }
 );
 
+/** Exemplos só no dev; em produção o portfólio fica vazio até publicar. */
+const fallbackProjects =
+  process.env.NODE_ENV === "production" ? [] : placeholderProjects;
+
 /**
  * Projetos publicados para o site. Enquanto o banco não estiver configurado
- * ou não houver projetos publicados, retorna os exemplos.
+ * ou não houver projetos publicados, retorna os exemplos (só fora de produção).
  */
 export async function getPublicProjects(): Promise<Project[]> {
-  if (!isDatabaseConfigured()) return placeholderProjects;
+  if (!isDatabaseConfigured()) return fallbackProjects;
 
   try {
     const rows = await loadPublishedProjects();
-    return rows.length > 0 ? rows.map(toPublicProject) : placeholderProjects;
+    return rows.length > 0 ? rows.map(toPublicProject) : fallbackProjects;
   } catch (error) {
     console.error("[projects] Falha ao carregar projetos:", error);
-    return placeholderProjects;
+    return fallbackProjects;
   }
 }

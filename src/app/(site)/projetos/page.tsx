@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FiArrowRight, FiChevronRight } from "react-icons/fi";
 
+import { PortfolioEmpty } from "@/components/sections/Portfolio/components/PortfolioEmpty";
 import { ProjectsExplorer } from "@/components/sections/Portfolio/components/ProjectsExplorer";
 import { getPublicProjects } from "@/server/projects/queries";
 
@@ -88,7 +89,7 @@ export default async function ProjectsPage() {
               </p>
             </div>
 
-            {stats.length > 0 && (
+            {projects.length > 0 && (
               <dl className="grid shrink-0 grid-cols-3 divide-x divide-white/[0.06] overflow-hidden rounded-xl border border-white/[0.06] bg-gray-850/80 backdrop-blur-sm [animation-delay:120ms] animate-[fade-in-up_0.6s_ease-out_both]">
                 {stats.map((stat) => (
                   <div key={stat.label} className="px-5 py-4 md:px-7">
@@ -109,7 +110,11 @@ export default async function ProjectsPage() {
 
       {/* Lista */}
       <section className="relative mx-auto max-w-content pb-24 max-[1359px]:px-4">
-        <ProjectsExplorer projects={projects} />
+        {projects.length > 0 ? (
+          <ProjectsExplorer projects={projects} />
+        ) : (
+          <PortfolioEmpty />
+        )}
       </section>
 
       {/* Chamada final */}

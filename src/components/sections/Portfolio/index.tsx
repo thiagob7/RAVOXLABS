@@ -9,6 +9,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { splitProjects, type Project } from "@/data/projects";
 
 import { FeaturedCarousel } from "./components/FeaturedCarousel";
+import { PortfolioEmpty } from "./components/PortfolioEmpty";
 import { ProjectCard } from "./components/ProjectCard";
 
 if (typeof window !== "undefined") {
@@ -85,30 +86,38 @@ export const Portfolio = ({ projects }: PortfolioProps) => {
         </p>
       </div>
 
-      <div ref={carouselRef} className="relative z-10 mt-14">
-        {featured.length > 0 && <FeaturedCarousel projects={featured} />}
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-content max-[1359px]:px-4">
-        {others.length > 0 && (
-          <>
-            <div className="mt-20 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-            <div
-              ref={cardsRef}
-              className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              {others.slice(0, 3).map((project) => (
-                <ProjectCard key={project.slug} project={project} />
-              ))}
-            </div>
-          </>
-        )}
-
-        <div className="mt-12 flex justify-center">
-          <ViewAllLink />
+      {projects.length === 0 ? (
+        <div className="relative z-10 mx-auto mt-14 max-w-content max-[1359px]:px-4">
+          <PortfolioEmpty />
         </div>
-      </div>
+      ) : (
+        <>
+          <div ref={carouselRef} className="relative z-10 mt-14">
+            {featured.length > 0 && <FeaturedCarousel projects={featured} />}
+          </div>
+
+          <div className="relative z-10 mx-auto max-w-content max-[1359px]:px-4">
+            {others.length > 0 && (
+              <>
+                <div className="mt-20 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                <div
+                  ref={cardsRef}
+                  className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                >
+                  {others.slice(0, 3).map((project) => (
+                    <ProjectCard key={project.slug} project={project} />
+                  ))}
+                </div>
+              </>
+            )}
+
+            <div className="mt-12 flex justify-center">
+              <ViewAllLink />
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 };
