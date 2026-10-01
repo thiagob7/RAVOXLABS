@@ -12,6 +12,12 @@ export const Footer = () => {
           <Logo variant="text" href="/" />
 
           <div className="flex items-center gap-6">
+            <Link
+              href="https://ui.ravoxlabs.com"
+              className="text-sm text-gray-400 hover:text-blue-500 transition-colors duration-300"
+            >
+              Ravox UI
+            </Link>
             <span className="text-sm text-gray-400">
               © 2026 Ravox Labs — Todos os direitos reservados.
             </span>
